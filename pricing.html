@@ -238,19 +238,51 @@
 
   initMap();
 
-  // TEMP estimate logic (unchanged)
+ <script>
+  const AZURE_MAPS_KEY = "PASTE_YOUR_REAL_PRIMARY_KEY_HERE";
+
+  const serviceType = document.getElementById("serviceType");
+  const addressInput = document.getElementById("address");
+  const estimatePrice = document.getElementById("estimatePrice");
+  const continueBtn = document.getElementById("continueBtn");
+
+  let map, marker;
+
+  // Initialize map (default: Houston)
+  function initMap() {
+    map = new atlas.Map("map", {
+      center: [-95.3698, 29.7604], // Houston
+      zoom: 14,
+      authOptions: {
+        authType: "subscriptionKey",
+        subscriptionKey: AZURE_MAPS_KEY
+      }
+    });
+
+    map.events.add("ready", () => {
+      marker = new atlas.HtmlMarker({
+        position: [-95.3698, 29.7604]
+      });
+      map.markers.add(marker);
+    });
+  }
+
+  initMap();
+
+  // Temporary estimate logic
   function checkReady() {
     if (serviceType.value && addressInput.value.length > 5) {
       estimatePrice.textContent = "$149.00";
       continueBtn.disabled = false;
+    } else {
+      estimatePrice.textContent = "$—";
+      continueBtn.disabled = true;
     }
   }
 
   serviceType.addEventListener("change", checkReady);
-  addressInput.addEventListener("blur", checkReady);
-</script>
+  addressInput.addEventListener("input", checkReady);
 </script>
 
-    </script>
   </body>
 </html>
