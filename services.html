@@ -3,23 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Services | VALDEZTECH Property Solutions</title>
+  <title>Power Washing Services | VALDEZTECH Property Solutions</title>
 
   <!-- Bootstrap CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet"/>
 
-  <!-- Brand Styles -->
   <style>
     :root {
       --navy: #0F1E2D;
@@ -30,180 +23,170 @@
 
     body {
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: 17px;
-      line-height: 1.6;
-      color: var(--gray-text);
       background-color: var(--off-white);
+      color: var(--gray-text);
     }
 
     h1, h2, h3 {
       font-family: 'Montserrat', sans-serif;
       color: var(--navy);
-      line-height: 1.25;
-    }
-
-    .navbar {
-      background-color: #ffffff;
-      border-bottom: 1px solid #e5e5e5;
-    }
-
-    .navbar-brand {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      color: var(--navy);
-      letter-spacing: 0.5px;
-    }
-
-    .navbar-nav .nav-link {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      font-size: 15px;
-      color: var(--navy);
-    }
-
-    .navbar-nav .nav-link:hover {
-      color: var(--accent);
-    }
-
-    .content-block {
-      max-width: 900px;
     }
 
     .service-card {
+      background: #ffffff;
       border: 1px solid #e5e5e5;
       border-radius: 8px;
-      background: #ffffff;
       height: 100%;
+      padding: 2rem;
+    }
+
+    .section-padding {
+      padding: 4rem 0;
+    }
+
+    .badge-custom {
+      background-color: #e9f7f0;
+      color: #198754;
+      font-weight: 500;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">VALDEZTECH</a>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">VALDEZTECH</a>
 
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#mainNav"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="areas.html">Areas We Serve</a></li>
-          <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
-          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-        </ul>
-      </div>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="areas.html">Areas We Serve</a></li>
+        <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+        <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <!-- PAGE HEADER -->
-  <section class="py-5">
-    <div class="container content-block">
-      <h1 class="mb-4">Our Services</h1>
-      <p class="lead">
-        VALDEZTECH Property Solutions provides preventative exterior maintenance
-        and post-storm property documentation services designed to protect
-        safety, preserve value, and support long-term property health.
+<!-- PAGE HEADER -->
+<section class="section-padding">
+  <div class="container" style="max-width:900px;">
+    <p class="text-uppercase text-muted small mb-2">
+      Power Washing & Exterior Cleaning Services
+    </p>
+
+    <h1 class="mb-3">Exterior Services Designed to Protect Your Property</h1>
+
+    <p class="lead">
+      VALDEZTECH Property Solutions provides professional power washing,
+      exterior cleaning, and post-storm documentation services for residential
+      and small commercial properties throughout Spring Branch and Greater Houston.
+    </p>
+
+    <p class="text-muted">
+      Our approach focuses on safe cleaning methods, preventative maintenance,
+      and long-term property value—not quick fixes that cause damage.
+    </p>
+  </div>
+</section>
+
+<!-- SERVICES GRID -->
+<section class="pb-5">
+  <div class="container" style="max-width:900px;">
+    <div class="row g-4">
+
+      <!-- Residential -->
+      <div class="col-md-6">
+        <div class="service-card">
+          <span class="badge badge-custom mb-3">Most Popular</span>
+          <h2 class="h4 mt-2">Residential Power Washing</h2>
+          <p>
+            Safe, effective pressure and soft washing services to remove dirt,
+            algae, mold, and buildup from residential surfaces.
+          </p>
+          <ul>
+            <li>Driveways, sidewalks & walkways</li>
+            <li>Home siding & exterior walls</li>
+            <li>Patios, porches & entryways</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Commercial -->
+      <div class="col-md-6">
+        <div class="service-card">
+          <h2 class="h4">Commercial Exterior Cleaning</h2>
+          <p>
+            Exterior cleaning services for small commercial properties focused on
+            safety, appearance, and routine maintenance.
+          </p>
+          <ul>
+            <li>Storefronts & customer walkways</li>
+            <li>Parking areas & loading zones</li>
+            <li>Shared exterior spaces</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Storm Docs -->
+      <div class="col-md-6">
+        <div class="service-card">
+          <h2 class="h4">Post-Storm Property Documentation</h2>
+          <p>
+            Independent visual documentation of property conditions following
+            storms or severe weather events.
+          </p>
+          <ul>
+            <li>High-resolution photo & video capture</li>
+            <li>Drone imaging (FAA compliant)</li>
+            <li>Time- and date-stamped documentation</li>
+          </ul>
+          <p class="text-muted small mt-2">
+            Documentation only. No claims interpretation or adjusting.
+          </p>
+        </div>
+      </div>
+
+      <!-- Preventative -->
+      <div class="col-md-6">
+        <div class="service-card">
+          <h2 class="h4">Preventative Maintenance Support</h2>
+          <p>
+            Routine exterior maintenance services designed to slow deterioration,
+            reduce hazards, and extend the life of exterior surfaces.
+          </p>
+          <ul>
+            <li>Scheduled maintenance programs</li>
+            <li>Exterior condition tracking</li>
+            <li>Community-focused service planning</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-5">
+      <h3 class="mb-3">Not Sure What You Need?</h3>
+      <p class="text-muted mb-4">
+        We’ll help you determine the right service for your property.
       </p>
+      <a href="pricing.html" class="btn btn-primary btn-lg px-5">
+        Get a Free Quote
+      </a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- SERVICES GRID -->
-  <section class="pb-5">
-    <div class="container content-block">
-      <div class="row g-4">
-
-        <!-- Service 1 -->
-        <div class="col-md-6">
-          <div class="service-card p-4">
-            <h2>Residential Pressure Washing</h2>
-            <p>
-              Driveways, sidewalks, patios, and home exteriors cleaned using
-              methods that prioritize surface protection and safety—not damage.
-            </p>
-            <ul>
-              <li>Driveways & walkways</li>
-              <li>Exterior siding</li>
-              <li>Patios & entryways</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Service 2 -->
-        <div class="col-md-6">
-          <div class="service-card p-4">
-            <h2>Commercial Exterior Cleaning</h2>
-            <p>
-              Exterior maintenance services for small commercial properties,
-              focused on appearance, safety, and preventative care.
-            </p>
-            <ul>
-              <li>Storefronts & walkways</li>
-              <li>Parking areas</li>
-              <li>Common-use exterior spaces</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Service 3 -->
-        <div class="col-md-6">
-          <div class="service-card p-4">
-            <h2>Post-Storm Property Documentation</h2>
-            <p>
-              Independent, visual documentation of observable property conditions
-              following severe weather events. Documentation only—no claims
-              interpretation or adjusting.
-            </p>
-            <ul>
-              <li>High-resolution photo & video</li>
-              <li>Drone imaging (FAA compliant)</li>
-              <li>Time- and date-stamped records</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Service 4 -->
-        <div class="col-md-6">
-          <div class="service-card p-4">
-            <h2>Preventative Maintenance Support</h2>
-            <p>
-              Routine exterior maintenance designed to slow deterioration,
-              reduce hazards, and protect long-term property value.
-            </p>
-            <ul>
-              <li>Routine service scheduling</li>
-              <li>Property condition tracking</li>
-              <li>Community-focused maintenance plans</li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="text-center mt-5">
-        <a href="pricing.html" class="btn btn-primary btn-lg">
-          View Pricing
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Bootstrap JS -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
-  </script>
-
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
