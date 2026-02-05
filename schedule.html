@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Schedule Service | VALDEZTECH</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background: #f4f6f7;
+        color: #2e2e2e;
+      }
+      h1 {
+        font-family: "Montserrat", sans-serif;
+      }
+      .card {
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container py-5" style="max-width: 720px;">
+      <h1 class="mb-4">Schedule Your Service</h1>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <p><strong>Service:</strong> <span id="service"></span></p>
+          <p><strong>Address:</strong> <span id="address"></span></p>
+          <p class="fs-4">
+            <strong>Estimated Price:</strong>
+            <span id="estimate"></span>
+          </p>
+          <p class="text-muted small">
+            Final price confirmed on-site if conditions differ.
+          </p>
+        </div>
+      </div>
+
+      <!-- Placeholder for scheduler -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <p class="mb-3">
+            Choose a date and time to complete your booking.
+          </p>
+
+          <!-- Replace later with Calendly / Square embed -->
+          <a href="#" class="btn btn-success btn-lg w-100">
+            Continue to Booking
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Read estimate data -->
+    <script>
+      const params = new URLSearchParams(window.location.search);
+
+      document.getElementById("service").textContent =
+        params.get("service") ?? "—";
+
+      document.getElementById("address").textContent =
+        params.get("address") ?? "—";
+
+      const estimate = params.get("estimate");
+      document.getElementById("estimate").textContent =
+        estimate ? `$${estimate}.00` : "$—";
+    </script>
+  </body>
+</html>
