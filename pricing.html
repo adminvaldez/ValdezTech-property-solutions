@@ -207,6 +207,7 @@
 
     <!-- TEMP JS LOGIC -->
 
+
       <script>
   const AZURE_MAPS_KEY = "1VL2HBM2G9ypgYnMndflxtdlaCLmpbxiHONxglu74FXryKokOt7IJQQJ99CBACrJL3J3sUZcAAAgAZMPMu5n";
       
@@ -270,18 +271,29 @@
   initMap();
 
   // Temporary estimate logic
-  function checkReady() {
-    if (serviceType.value && addressInput.value.length > 5) {
-      estimatePrice.textContent = "$149.00";
-      continueBtn.disabled = false;
-    } else {
-      estimatePrice.textContent = "$—";
-      continueBtn.disabled = true;
-    }
+ const PRICING_RULES = {
+  driveway: {
+    source: "parcel",
+    rate: 0.18,
+    min: 99
+  },
+  exterior: {
+    source: "parcel",
+    rate: 0.12,
+    min: 129
+  },
+  siding: {
+    source: "building",
+    rate: 0.20,
+    min: 149
+  },
+  sidewalk: {
+    source: "frontage",
+    rate: 2.5,
+    min: 79
   }
+};
 
-  serviceType.addEventListener("change", checkReady);
-  addressInput.addEventListener("input", checkReady);
 </script>
 
   </body>
