@@ -2,7 +2,6 @@
  * maps.js
  * ---------------------------------------------------------
  * Azure Maps initialization + address → coordinates
- * Updates window.appState.location.lat / lon
  ***********************************************************/
 
 // Ensure global state exists
@@ -21,22 +20,31 @@ let map = null;
 let marker = null;
 
 /**
- * Initialize Azure Map (safe)
+ * Initialize Azure Map (defensive)
  */
 function initMap() {
+  // HARD guards (these catch 99% of failures)
   if (typeof atlas === "undefined") {
-    console.error("Azure Maps SDK not loaded");
+    console.error("❌ Azure Maps SDK not loaded");
+    return;
+  }
+
+  if (typeof AZURE_MAPS_KEY !== "string" || !AZURE_MAPS_KEY.length) {
+    console.error("❌ AZURE_MAPS_KEY missing or invalid");
     return;
   }
 
   const mapContainer = document.getElementById("map");
-  if (!mapContainer) return;
+  if (!mapContainer) {
+    console.error("❌ Map container not found");
+    return;
+  }
 
   // Clear placeholder text
   mapContainer.innerHTML = "";
 
   map = new atlas.Map(mapContainer, {
-    center: [-95.3698, 29.7604], // Houston
+    center: [-95.3698, 29.7604],
     zoom: 13,
     authOptions: {
       authType: "subscriptionKey",
@@ -73,7 +81,7 @@ async function geocodeAddress(address) {
 
     return data.results[0].position;
   } catch (err) {
-    console.error("Geocoding failed", err);
+    console.error("❌ Geocoding failed", err);
     return null;
   }
 }
@@ -106,7 +114,7 @@ function updateLocation(lat, lon) {
 }
 
 /**
- * Wire address input
+ * Wire address input + map init
  */
 document.addEventListener("DOMContentLoaded", () => {
   initMap();
