@@ -1,10 +1,14 @@
 /***********************************************************
  * maps.js
  * ---------------------------------------------------------
- * Azure Maps initialization + address → coordinates
+ * Azure Maps
+ * Default: Spring Branch, Houston TX
+ * Address → coordinates
  ***********************************************************/
 
-// Global app state
+// ------------------
+// Global App State
+// ------------------
 window.appState = window.appState || {
   location: {
     lat: null,
@@ -16,13 +20,22 @@ window.appState = window.appState || {
   estimate: null
 };
 
+// ------------------
+// Map Globals
+// ------------------
 let map;
 let marker;
 let mapReady = false;
 
-/**
- * Initialize Azure Map
- */
+// Spring Branch, Houston TX (default home location)
+const DEFAULT_LOCATION = {
+  lat: 29.8150,
+  lon: -95.5150
+};
+
+// ------------------
+// Initialize Map
+// ------------------
 function initMap() {
   if (typeof atlas === "undefined") {
     console.error("❌ Azure Maps SDK not loaded");
@@ -41,8 +54,8 @@ function initMap() {
   }
 
   map = new atlas.Map(mapContainer, {
-    center: [-95.3698, 29.7604], // Houston
-    zoom: 13,
+    center: [DEFAULT_LOCATION.lon, DEFAULT_LOCATION.lat],
+    zoom: 14,
     authOptions: {
       authType: "subscriptionKey",
       subscriptionKey: AZURE_MAPS_KEY
@@ -52,17 +65,25 @@ function initMap() {
   map.events.add("ready", () => {
     mapReady = true;
 
+    // Set default app state
+    window.appState.location.lat = DEFAULT_LOCATION.lat;
+    window.appState.location.lon = DEFAULT_LOCATION.lon;
+
+    // Default marker
     marker = new atlas.HtmlMarker({
-      position: [-95.3698, 29.7604]
+      position: [DEFAULT_LOCATION.lon, DEFAULT_LOCATION.lat]
     });
 
     map.markers.add(marker);
+
+    // Auto-run analysis on load
+    triggerDownstreamLogic();
   });
 }
 
-/**
- * Geocode address → coordinates
- */
+// ------------------
+// Geocode Address
+// ------------------
 async function geocodeAddress(address) {
   try {
     const url =
@@ -73,10 +94,10 @@ async function geocodeAddress(address) {
       "&subscription-key=" + encodeURIComponent(AZURE_MAPS_KEY) +
       "&query=" + encodeURIComponent(address);
 
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Bad response");
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Bad response");
 
-    const data = await res.json();
+    const data = await response.json();
     if (!data.results?.length) return null;
 
     return data.results[0].position;
@@ -86,9 +107,9 @@ async function geocodeAddress(address) {
   }
 }
 
-/**
- * Update location + downstream logic
- */
+// ------------------
+// Update Location
+// ------------------
 function updateLocation(lat, lon) {
   window.appState.location.lat = lat;
   window.appState.location.lon = lon;
@@ -104,6 +125,13 @@ function updateLocation(lat, lon) {
     });
   }
 
+  triggerDownstreamLogic();
+}
+
+// ------------------
+// Downstream Logic
+// ------------------
+function triggerDownstreamLogic() {
   if (typeof runGISAnalysis === "function") {
     runGISAnalysis();
   }
@@ -113,16 +141,16 @@ function updateLocation(lat, lon) {
   }
 }
 
-/**
- * Wire events
- */
+// ------------------
+// Wire UI Events
+// ------------------
 document.addEventListener("DOMContentLoaded", () => {
   initMap();
 
   const addressInput = document.getElementById("address");
   if (!addressInput) return;
 
-  // Trigger on Enter OR field change
+  // Enter key
   addressInput.addEventListener("keydown", async (e) => {
     if (e.key !== "Enter") return;
 
@@ -135,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateLocation(pos.lat, pos.lon);
   });
 
+  // Change event (click away / autocomplete)
   addressInput.addEventListener("change", async () => {
     const address = addressInput.value.trim();
     if (address.length < 6) return;
