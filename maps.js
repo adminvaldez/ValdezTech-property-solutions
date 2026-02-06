@@ -4,7 +4,7 @@
  * Azure Maps initialization + address → coordinates
  ***********************************************************/
 
-// Ensure global state exists
+// Global app state
 window.appState = window.appState || {
   location: {
     lat: null,
@@ -16,32 +16,29 @@ window.appState = window.appState || {
   estimate: null
 };
 
-let map = null;
-let marker = null;
+let map;
+let marker;
+let mapReady = false;
 
 /**
  * Initialize Azure Map
  */
 function initMap() {
-  // Guard: Azure Maps SDK
   if (typeof atlas === "undefined") {
     console.error("❌ Azure Maps SDK not loaded");
     return;
   }
 
-  // Guard: API key
-  if (typeof AZURE_MAPS_KEY !== "string" || AZURE_MAPS_KEY.length < 10) {
-    console.error("❌ AZURE_MAPS_KEY missing or invalid");
+  if (!window.AZURE_MAPS_KEY) {
+    console.error("❌ AZURE_MAPS_KEY missing");
     return;
   }
 
   const mapContainer = document.getElementById("map");
   if (!mapContainer) {
-    console.error("❌ Map container not found");
+    console.error("❌ #map container not found");
     return;
   }
-
-  mapContainer.innerHTML = "";
 
   map = new atlas.Map(mapContainer, {
     center: [-95.3698, 29.7604], // Houston
@@ -53,9 +50,12 @@ function initMap() {
   });
 
   map.events.add("ready", () => {
+    mapReady = true;
+
     marker = new atlas.HtmlMarker({
       position: [-95.3698, 29.7604]
     });
+
     map.markers.add(marker);
   });
 }
@@ -73,11 +73,11 @@ async function geocodeAddress(address) {
       "&subscription-key=" + encodeURIComponent(AZURE_MAPS_KEY) +
       "&query=" + encodeURIComponent(address);
 
-    const response = await fetch(url);
-    if (!response.ok) return null;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Bad response");
 
-    const data = await response.json();
-    if (!data.results || !data.results.length) return null;
+    const data = await res.json();
+    if (!data.results?.length) return null;
 
     return data.results[0].position;
   } catch (err) {
@@ -87,13 +87,13 @@ async function geocodeAddress(address) {
 }
 
 /**
- * Update location + trigger downstream logic
+ * Update location + downstream logic
  */
 function updateLocation(lat, lon) {
   window.appState.location.lat = lat;
   window.appState.location.lon = lon;
 
-  if (map && marker) {
+  if (mapReady && map && marker) {
     map.setCamera({
       center: [lon, lat],
       zoom: 18
@@ -122,13 +122,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const addressInput = document.getElementById("address");
   if (!addressInput) return;
 
-  addressInput.addEventListener("blur", async () => {
+  // Trigger on Enter OR field change
+  addressInput.addEventListener("keydown", async (e) => {
+    if (e.key !== "Enter") return;
+
     const address = addressInput.value.trim();
     if (address.length < 6) return;
 
-    const position = await geocodeAddress(address);
-    if (!position) return;
+    const pos = await geocodeAddress(address);
+    if (!pos) return;
 
-    updateLocation(position.lat, position.lon);
+    updateLocation(pos.lat, pos.lon);
+  });
+
+  addressInput.addEventListener("change", async () => {
+    const address = addressInput.value.trim();
+    if (address.length < 6) return;
+
+    const pos = await geocodeAddress(address);
+    if (!pos) return;
+
+    updateLocation(pos.lat, pos.lon);
   });
 });
