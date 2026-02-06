@@ -5,11 +5,7 @@
  * Updates window.appState.location.lat / lon
  ***********************************************************/
 
-// EXPECTED GLOBALS:
-// - Azure Maps SDK loaded in HTML
-// - AZURE_MAPS_KEY defined in HTML BEFORE this file
-// - window.appState created (or will be created here)
-
+// Ensure global state exists
 window.appState = window.appState || {
   location: {
     lat: null,
@@ -21,15 +17,26 @@ window.appState = window.appState || {
   estimate: null
 };
 
-let map;
-let marker;
+let map = null;
+let marker = null;
 
 /**
- * Initialize Azure Map
+ * Initialize Azure Map (safe)
  */
 function initMap() {
-  map = new atlas.Map("map", {
-    center: [-95.3698, 29.7604], // Houston default
+  if (typeof atlas === "undefined") {
+    console.error("Azure Maps SDK not loaded");
+    return;
+  }
+
+  const mapContainer = document.getElementById("map");
+  if (!mapContainer) return;
+
+  // Clear placeholder text
+  mapContainer.innerHTML = "";
+
+  map = new atlas.Map(mapContainer, {
+    center: [-95.3698, 29.7604], // Houston
     zoom: 13,
     authOptions: {
       authType: "subscriptionKey",
@@ -49,25 +56,30 @@ function initMap() {
  * Geocode an address using Azure Maps REST API
  */
 async function geocodeAddress(address) {
-  const url =
-    "https://atlas.microsoft.com/search/address/json" +
-    "?api-version=1.0" +
-    "&countrySet=US" +
-    "&limit=1" +
-    "&subscription-key=" + encodeURIComponent(AZURE_MAPS_KEY) +
-    "&query=" + encodeURIComponent(address);
+  try {
+    const url =
+      "https://atlas.microsoft.com/search/address/json" +
+      "?api-version=1.0" +
+      "&countrySet=US" +
+      "&limit=1" +
+      "&subscription-key=" + encodeURIComponent(AZURE_MAPS_KEY) +
+      "&query=" + encodeURIComponent(address);
 
-  const response = await fetch(url);
-  if (!response.ok) return null;
+    const response = await fetch(url);
+    if (!response.ok) return null;
 
-  const data = await response.json();
-  if (!data.results || !data.results.length) return null;
+    const data = await response.json();
+    if (!data.results || !data.results.length) return null;
 
-  return data.results[0].position;
+    return data.results[0].position;
+  } catch (err) {
+    console.error("Geocoding failed", err);
+    return null;
+  }
 }
 
 /**
- * Move map + marker and store coordinates
+ * Update location + trigger downstream logic
  */
 function updateLocation(lat, lon) {
   window.appState.location.lat = lat;
@@ -84,13 +96,13 @@ function updateLocation(lat, lon) {
     });
   }
 
-  // Let pricing know something changed
+  if (typeof runGISAnalysis === "function") {
+    runGISAnalysis();
+  }
+
   if (typeof updateEstimateUI === "function") {
     updateEstimateUI();
   }
-  if (typeof runGISAnalysis === "function") {
-  runGISAnalysis();
-}
 }
 
 /**
@@ -100,10 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
   initMap();
 
   const addressInput = document.getElementById("address");
+  if (!addressInput) return;
 
   addressInput.addEventListener("blur", async () => {
-    const address = addressInput.value;
-    if (!address || address.length < 6) return;
+    const address = addressInput.value.trim();
+    if (address.length < 6) return;
 
     const position = await geocodeAddress(address);
     if (!position) return;
